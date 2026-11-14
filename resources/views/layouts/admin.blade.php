@@ -95,12 +95,66 @@
             margin-bottom: 25px;
         }
 
+
         .cards {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 18px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            margin-bottom: 28px;
         }
+
+        .stat-card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e8eee9;
+            border-left: 5px solid #27845e;
+            box-shadow: 0 3px 12px rgba(23, 60, 50, 0.06);
+            transition: all 0.25s ease;
+            min-width: 0;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(23, 60, 50, 0.12);
+        }
+
+        .stat-card .label {
+            color: #77838a;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .stat-card .number {
+            font-size: 29px;
+            font-weight: 700;
+            color: #173c32;
+            line-height: 1.3;
+            overflow-wrap: anywhere;
+        }
+
+        /* Individual Card Colors */
+        .stat-card:nth-child(2) {
+            border-left-color: #0d9488;
+        }
+
+        .stat-card:nth-child(3) {
+            border-left-color: #2563eb;
+        }
+
+        .stat-card:nth-child(4) {
+            border-left-color: #9333ea;
+        }
+
+        .stat-card:nth-child(5) {
+            border-left-color: #ca8a04;
+        }
+
+        .stat-card:nth-child(6) {
+            border-left-color: #dc2626;
+        }
+
 
         .stat-card {
             background: white;
@@ -176,8 +230,11 @@
             text-align: left;
         }
 
+        
         @media (max-width: 1000px) {
-            .cards { grid-template-columns: repeat(2, 1fr); }
+            .cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
         }
 
         @media (max-width: 700px) {
@@ -187,22 +244,45 @@
                 height: auto;
             }
 
-            .main { margin-left: 0; }
-            .topbar { padding: 0 18px; }
-            .content { padding: 20px 15px; }
-            .cards { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .stat-card { padding: 15px; }
-            .stat-card .number { font-size: 22px; }
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 17px;
+            }
+
+            .stat-card .number {
+                font-size: 23px;
+            }
         }
 
         @media (max-width: 380px) {
-            .cards { grid-template-columns: 1fr; }
+            .cards {
+                grid-template-columns: 1fr;
+            }
         }
+
+        
     </style>
 </head>
 
 <body>
 
+    
     <aside class="sidebar">
         <div class="brand">
             Bhaja Gouranga Kripa Sangha
@@ -211,38 +291,69 @@
 
         <div class="menu-label">Main Menu</div>
 
-        <a href="{{ route('admin.dashboard') }}" class="active">
-            ▦ Dashboard
-        </a>
+        @can('dashboard.view')
+            <a href="{{ route('admin.dashboard') }}"
+            @class(['active' => request()->routeIs('admin.dashboard')])>
+                ▦ Dashboard
+            </a>
+        @endcan
 
         <div class="menu-label">Management</div>
 
-        <a href="{{ route('admin.members.index') }}" @class([
-            'nav-link', 'active' => request()->routeIs('admin.members*'),
-        ])>
-            ▙ Members
-        </a>
-        <a href="">
-            ♡ Donors
-        </a>
-        <a href="{{ route('admin.donations.index') }}" @class([
-            'nav-link', 'active' => request()->routeIs('admin.donations*'),
-        ])>
-            ৳ Donations / Pranami
-        </a>
-        <a href="#">▤ Income & Expenses</a>
+        @can('members.view')
+            <a href="{{ route('admin.members.index') }}"
+            @class(['active' => request()->routeIs('admin.members.*')])>
+                ▙ Members
+            </a>
+        @endcan
+
+        @can('donations.view')
+            <a href="{{ route('admin.donations.index') }}"
+            @class(['active' => request()->routeIs('admin.donations.*')])>
+                ৳ Donations / Pranami
+            </a>
+        @endcan
+
+            <a href="{{ route('admin.donors.index') }}"
+            @class(['active' => request()->routeIs('admin.donors.*')])>
+                ▙ Donors
+            </a>
+
+        @can('donation-categories.manage')
+            <a href="{{ route('admin.donation-categories.index') }}"
+            @class(['active' => request()->routeIs('admin.donation-categories.*')])>
+                Donation Categories
+            </a>
+        @endcan
+
+        @can('finance.view')
+            <a href="#">▤ Income & Expenses</a>
+        @endcan
 
         <div class="menu-label">Activities</div>
 
-        <a href="#">✿ Puja & Events</a>
-        <a href="#">♧ Bhakta Seva</a>
-        <a href="#">▣ Social Initiatives</a>
-        <a href="#">◉ Gita Education</a>
+        @can('events.manage')
+            <a href="#">✿ Puja & Events</a>
+        @endcan
+
+        @can('seva.manage')
+            <a href="#">♧ Bhakta Seva</a>
+            <a href="#">▣ Social Initiatives</a>
+        @endcan
+
+        @can('events.manage')
+            <a href="#">◉ Gita Education</a>
+        @endcan
 
         <div class="menu-label">System</div>
 
-        <a href="#">▤ Reports</a>
-        <a href="#">⚙ Settings</a>
+        @can('reports.view')
+            <a href="#">▤ Reports</a>
+        @endcan
+
+        @can('settings.manage')
+            <a href="#">⚙ Settings</a>
+        @endcan
 
         <form method="POST" action="{{ route('logout') }}" class="logout-form">
             @csrf
@@ -251,6 +362,7 @@
             </button>
         </form>
     </aside>
+
 
     <main class="main">
 

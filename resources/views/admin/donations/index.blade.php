@@ -84,7 +84,8 @@
                     </td>
 
                     <td style="padding:12px;">
-                        <a href="{{ route('admin.donations.show', $donation) }}">
+                        <a href="{{ route('admin.donations.show', $donation) }}"
+                        style="color:#23754d;text-decoration:none;">
                             View
                         </a>
                     </td>

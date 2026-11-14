@@ -18,12 +18,18 @@ class RolePermissionSeeder extends Seeder
             'donations.view',
             'donations.create',
             'donations.verify',
+            'donations.receipt',
+            'donation-categories.manage',
             'finance.view',
             'finance.manage',
             'events.manage',
             'seva.manage',
             'reports.view',
             'settings.manage',
+            'donors.view',
+            'donors.create',
+            'donors.edit',
+            'donors.delete',
         ];
 
         foreach ($permissions as $permission) {
@@ -62,19 +68,39 @@ class RolePermissionSeeder extends Seeder
             'donations.view',
             'donations.create',
             'donations.verify',
+            'donations.receipt',
             'finance.view',
             'finance.manage',
             'reports.view',
+            'donors.view',
+            'donors.create',
         ]);
 
         Role::findByName('president')->syncPermissions([
             'dashboard.view',
             'members.view',
             'donations.view',
+            'donations.receipt',
             'finance.view',
             'events.manage',
             'seva.manage',
             'reports.view',
+            'donors.view',
+        ]);
+
+        Role::findByName('secretary')->givePermissionTo([
+            'dashboard.view',
+            'members.view',
+            'members.create',
+            'members.edit',
+            'donations.view',
+            'donations.create',
+            'donations.receipt',
+            'donation-categories.manage',
+            'reports.view',
+            'donors.view',
+            'donors.create',
+            'donors.edit',
         ]);
     }
 }

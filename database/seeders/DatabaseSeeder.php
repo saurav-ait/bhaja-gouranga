@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             AdminUserSeeder::class,
             DonationCategorySeeder::class,
+            ExpenseCategorySeeder::class,
+
         ]);
 
         User::factory()->create([

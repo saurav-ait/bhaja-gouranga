@@ -114,7 +114,7 @@
                                 @method('DELETE')
 
                                 <button type="submit"
-                                        style="border:0;background:none;color:#c0392b;cursor:pointer;margin-left:10px;">
+                                    style="border:0;background:none;color:#c0392b;cursor:pointer;margin-left:10px;">
                                     Delete
                                 </button>
                             </form>
